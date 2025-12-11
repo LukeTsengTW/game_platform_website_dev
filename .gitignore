@@ -1,0 +1,49 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.cache
+*.pdb
+*.userosscache
+*.sln.docstates
+
+# Compiled Output
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+
+# NuGet Packages
+packages/
+*.nupkg
+
+# Web specific
+App_Data/
+node_modules/
+bower_components/
+
+# User Uploads (Avoid uploading user generated content)
+ForumDev/Uploads/*
+!ForumDev/Uploads/web.config
+
+# Database files
+*.mdf
+*.ldf
+*.sqlite
+*.db
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Sensitive Configuration
+# 如果 Web.config 包含敏感密碼，請取消註解下一行，並建立 Web.config.example
+# Web.config
+# Web.Debug.config
+# Web.Release.config
+connectionStrings.config
+secrets.json
+*.pubxml

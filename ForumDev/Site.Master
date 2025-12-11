@@ -1,0 +1,840 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="ForumDev.SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html lang="zh">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>暗魂的神諭 - <%: Page.Title %></title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Favicon 網站圖示 -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/Images/Icons/game_logo_32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/Images/Icons/game_logo_16x16.png" />
+    <link rel="shortcut icon" href="/Images/Icons/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/Images/Icons/apple-touch-icon.png" />
+
+    <!-- 神秘暗色主題樣式 -->
+    <style>
+        /* ========== 全域神秘暗色主題 ========== */
+        :root {
+            --dark-bg: #0d0d1a;
+            --dark-secondary: #1a1a2e;
+            --dark-tertiary: #16213e;
+            --dark-card: #1f1f38;
+            --mystic-purple: #6c5ce7;
+            --mystic-purple-dark: #4a3f9f;
+            --mystic-blue: #0984e3;
+            --mystic-cyan: #00cec9;
+            --mystic-gold: #f39c12;
+            --mystic-glow: rgba(108, 92, 231, 0.4);
+            --text-primary: #e8e8f0;
+            --text-secondary: #a0a0b8;
+            --text-muted: #6c6c88;
+            --border-color: rgba(108, 92, 231, 0.2);
+            --shadow-mystic: 0 0 20px rgba(108, 92, 231, 0.3);
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--mystic-purple) var(--dark-secondary);
+        }
+
+        *::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: var(--dark-secondary);
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background: var(--mystic-purple);
+            border-radius: 4px;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-secondary) 50%, var(--dark-tertiary) 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            padding-top: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* 神秘背景粒子效果 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(108, 92, 231, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 206, 201, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(9, 132, 227, 0.06) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .body-content {
+            flex: 1;
+        }
+
+        /* ========== 導覽列 ========== */
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 50%, #16213e 100%) !important;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), 0 0 40px var(--mystic-glow);
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            color: var(--mystic-cyan) !important;
+            text-shadow: 0 0 10px rgba(0, 206, 201, 0.5);
+        }
+
+        .navbar-brand .navbar-icon {
+            width: 32px;
+            height: 32px;
+            vertical-align: middle;
+            margin-right: 8px;
+            filter: drop-shadow(0 0 5px rgba(243, 156, 18, 0.6));
+        }
+
+        .navbar-brand i {
+            color: var(--mystic-gold);
+            filter: drop-shadow(0 0 5px rgba(243, 156, 18, 0.6));
+        }
+
+        .nav-link {
+            color: var(--text-secondary) !important;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--mystic-cyan) !important;
+            transform: translateY(-2px);
+            text-shadow: 0 0 10px rgba(0, 206, 201, 0.5);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--mystic-purple), var(--mystic-cyan));
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 80%;
+        }
+
+        /* 平台導覽特殊樣式 */
+        .nav-link-tour {
+            position: relative;
+        }
+
+        .tour-badge {
+            background: linear-gradient(45deg, var(--mystic-gold), #f1c40f);
+            color: #1a1a2e;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            animation: mystic-pulse 2s ease-in-out infinite;
+            box-shadow: 0 0 15px rgba(243, 156, 18, 0.5);
+        }
+
+        @keyframes mystic-pulse {
+            0%, 100% {
+                box-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(243, 156, 18, 0.8);
+                transform: scale(1.05);
+            }
+        }
+
+        .nav-link-tour:hover .tour-badge {
+            background: linear-gradient(45deg, #f1c40f, var(--mystic-gold));
+        }
+
+        /* ========== 下拉選單 ========== */
+        .dropdown-menu {
+            background: var(--dark-card);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-mystic), 0 10px 40px rgba(0, 0, 0, 0.5);
+            z-index: 1050;
+        }
+
+        .dropdown-item {
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: linear-gradient(90deg, var(--mystic-purple-dark), var(--mystic-purple));
+            color: white;
+            padding-left: 20px;
+            box-shadow: inset 3px 0 0 var(--mystic-cyan);
+        }
+
+        .dropdown-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .dropdown-item-tour {
+            background: linear-gradient(90deg, rgba(243, 156, 18, 0.1), rgba(243, 156, 18, 0.05)) !important;
+            border-left: 3px solid var(--mystic-gold);
+        }
+
+        .dropdown-item-tour:hover {
+            background: linear-gradient(90deg, var(--mystic-purple), var(--mystic-blue)) !important;
+            color: white !important;
+            border-left-color: var(--mystic-cyan);
+        }
+
+        .dropdown-divider {
+            border-color: var(--border-color);
+        }
+
+        /* ========== 頁尾 ========== */
+        footer {
+            background: linear-gradient(180deg, var(--dark-secondary), var(--dark-bg)) !important;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        footer h5, footer h6 {
+            color: var(--mystic-cyan);
+            text-shadow: 0 0 10px rgba(0, 206, 201, 0.3);
+        }
+
+        footer .footer-icon {
+            width: 28px;
+            height: 28px;
+            vertical-align: middle;
+            margin-right: 6px;
+            filter: drop-shadow(0 0 5px rgba(243, 156, 18, 0.6));
+        }
+
+        footer .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        footer ul a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        footer ul a:hover {
+            color: var(--mystic-purple);
+            padding-left: 5px;
+        }
+
+        footer hr {
+            border-color: var(--border-color);
+        }
+
+        .social-links a {
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--mystic-purple);
+            filter: drop-shadow(0 0 10px var(--mystic-glow));
+            transform: scale(1.2);
+        }
+
+        /* ========== 通用元件覆蓋 ========== */
+        .bg-light {
+            background: var(--dark-secondary) !important;
+        }
+
+        .bg-white {
+            background: var(--dark-card) !important;
+        }
+
+        .text-primary {
+            color: var(--mystic-purple) !important;
+        }
+
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        .text-dark {
+            color: var(--text-primary) !important;
+        }
+
+        /* 卡片樣式 */
+        .card {
+            background: var(--dark-card);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--mystic-purple);
+            box-shadow: var(--shadow-mystic);
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background: linear-gradient(90deg, var(--dark-tertiary), var(--dark-secondary));
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .card-body {
+            color: var(--text-secondary);
+        }
+
+        .card-footer {
+            background: var(--dark-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* 按鈕樣式 */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--mystic-purple), var(--mystic-purple-dark));
+            border: none;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--mystic-purple-dark), var(--mystic-purple));
+            box-shadow: 0 6px 25px rgba(108, 92, 231, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--dark-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--dark-secondary);
+            border-color: var(--mystic-purple);
+            color: var(--text-primary);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4);
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #00a085, #00b894);
+            box-shadow: 0 6px 25px rgba(0, 184, 148, 0.6);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--mystic-gold), #e67e22);
+            border: none;
+            color: #1a1a2e;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            border: none;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-outline-light {
+            border-color: var(--mystic-cyan);
+            color: var(--mystic-cyan);
+        }
+
+        .btn-outline-light:hover {
+            background: linear-gradient(135deg, var(--mystic-purple) 0%, var(--mystic-purple-dark) 100%);
+            border-color: var(--mystic-purple);
+            color: #ffffff;
+            box-shadow: 0 0 20px rgba(108, 92, 231, 0.5);
+        }
+
+        /* 表單元件 */
+        .form-control, .form-select {
+            background: var(--dark-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: var(--dark-secondary);
+            border-color: var(--mystic-purple);
+            box-shadow: 0 0 15px var(--mystic-glow);
+            color: var(--text-primary);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-label {
+            color: var(--text-secondary);
+        }
+
+        /* 表格樣式 */
+        .table {
+            color: var(--text-secondary);
+            --bs-table-bg: transparent;
+        }
+
+        .table thead th {
+            background: var(--dark-tertiary);
+            border-color: var(--border-color);
+            color: var(--mystic-cyan);
+        }
+
+        .table tbody tr {
+            border-color: var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .table tbody tr:hover {
+            background: rgba(108, 92, 231, 0.1);
+        }
+
+        .table-striped > tbody > tr:nth-of-type(odd) > * {
+            background: rgba(26, 26, 46, 0.5);
+            --bs-table-accent-bg: transparent;
+        }
+
+        /* 徽章樣式 */
+        .badge {
+            font-weight: 500;
+        }
+
+        .badge.bg-primary, .bg-primary {
+            background: var(--mystic-purple) !important;
+        }
+
+        .badge.bg-success, .bg-success {
+            background: #00b894 !important;
+        }
+
+        .badge.bg-warning, .bg-warning {
+            background: var(--mystic-gold) !important;
+            color: #1a1a2e !important;
+        }
+
+        .badge.bg-danger, .bg-danger {
+            background: #e74c3c !important;
+        }
+
+        .badge.bg-info, .bg-info {
+            background: var(--mystic-blue) !important;
+        }
+
+        .badge.bg-secondary, .bg-secondary {
+            background: var(--dark-tertiary) !important;
+        }
+
+        /* 進度條 */
+        .progress {
+            background: var(--dark-tertiary);
+            border: 1px solid var(--border-color);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--mystic-purple), var(--mystic-cyan));
+        }
+
+        /* 分頁 */
+        .pagination .page-link {
+            background: var(--dark-tertiary);
+            border-color: var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .pagination .page-link:hover {
+            background: var(--mystic-purple);
+            border-color: var(--mystic-purple);
+            color: white;
+        }
+
+        .pagination .page-item.active .page-link {
+            background: var(--mystic-purple);
+            border-color: var(--mystic-purple);
+        }
+
+        /* 警告框 */
+        .alert {
+            border: 1px solid;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .alert-success {
+            border-color: #00b894;
+            color: #00b894;
+        }
+
+        .alert-danger {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+
+        .alert-warning {
+            border-color: var(--mystic-gold);
+            color: var(--mystic-gold);
+        }
+
+        .alert-info {
+            border-color: var(--mystic-blue);
+            color: var(--mystic-blue);
+        }
+
+        /* 列表群組 */
+        .list-group-item {
+            background: var(--dark-card);
+            border-color: var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .list-group-item:hover {
+            background: var(--dark-tertiary);
+        }
+
+        .list-group-item.active {
+            background: var(--mystic-purple);
+            border-color: var(--mystic-purple);
+        }
+
+        /* 導覽標籤 */
+        .nav-tabs {
+            border-color: var(--border-color);
+        }
+
+        .nav-tabs .nav-link {
+            color: var(--text-secondary);
+            border: none;
+        }
+
+        .nav-tabs .nav-link:hover {
+            border-color: transparent;
+            color: var(--mystic-purple);
+        }
+
+        .nav-tabs .nav-link.active {
+            background: var(--dark-card);
+            border-color: var(--border-color);
+            border-bottom-color: transparent;
+            color: var(--mystic-cyan);
+        }
+
+        .nav-pills .nav-link {
+            color: var(--text-secondary);
+        }
+
+        .nav-pills .nav-link.active {
+            background: var(--mystic-purple);
+        }
+
+        /* 模態框 */
+        .modal-content {
+            background: var(--dark-card);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5), var(--shadow-mystic);
+        }
+
+        .modal-header {
+            border-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .modal-footer {
+            border-color: var(--border-color);
+        }
+
+        .btn-close {
+            filter: invert(1);
+        }
+
+        /* 特殊動畫效果 */
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 10px var(--mystic-glow);
+            }
+            50% {
+                box-shadow: 0 0 30px var(--mystic-glow), 0 0 50px rgba(0, 206, 201, 0.2);
+            }
+        }
+
+        .glow-effect {
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        /* 積分相關顏色 */
+        .text-points {
+            color: var(--mystic-gold) !important;
+            text-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
+        }
+
+        .text-experience {
+            color: var(--mystic-cyan) !important;
+            text-shadow: 0 0 10px rgba(0, 206, 201, 0.5);
+        }
+
+        .text-item {
+            color: #00b894 !important;
+        }
+
+        .text-special {
+            color: #e74c3c !important;
+        }
+
+        /* 連結樣式 */
+        a {
+            color: var(--mystic-purple);
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--mystic-cyan);
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: var(--dark-tertiary);
+            border-radius: 8px;
+            padding: 10px 15px;
+        }
+
+        .breadcrumb-item a {
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb-item.active {
+            color: var(--mystic-cyan);
+        }
+
+        /* 浮動發光裝飾 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* 霧氣效果 */
+        .mist-effect {
+            position: relative;
+        }
+
+        .mist-effect::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to top, var(--dark-bg), transparent);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <form runat="server">
+        <!-- 啟用 PageMethods 並給定 ID -->
+        <asp:ScriptManager ID="MasterScriptManager" runat="server" EnablePageMethods="true">
+            <Scripts>
+                <%--Framework Scripts--%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+            </Scripts>
+        </asp:ScriptManager>
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" runat="server" href="~/">
+                    <img src="/Images/Icons/game_logo.png" alt="Logo" class="navbar-icon" /> 暗魂的神諭
+                </a>
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" 
+                        title="切換導覽" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse d-lg-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" runat="server" href="~/"><i class="bi bi-house-fill"></i> 首頁</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" runat="server" href="~/Tasks/TaskList.aspx"><i class="bi bi-list-task"></i> 任務大廳</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" runat="server" href="~/Shop/ItemShop.aspx"><i class="bi bi-shop"></i> 積分商城</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" runat="server" href="~/Leaderboard.aspx"><i class="bi bi-bar-chart-fill"></i> 排行榜</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" runat="server" href="~/Social/Social.aspx"><i class="bi bi-people-fill"></i> 社交</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" runat="server" href="~/LotteryPages/LotteryList.aspx"><i class="bi bi-gift-fill"></i> 抽獎</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-tour" runat="server" href="~/PlatformTour.aspx">
+                                <i class="bi bi-compass-fill"></i> 
+                                <span class="tour-badge">平台導覽</span>
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <!-- 右側用戶選單 -->
+                    <ul class="navbar-nav">
+                        <asp:LoginView ID="LoginView1" runat="server">
+                            <AnonymousTemplate>
+                                <li class="nav-item">
+                                    <a class="nav-link" runat="server" href="~/Account/Login.aspx">
+                                        <i class="bi bi-box-arrow-in-right"></i> 登入
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link btn btn-outline-light btn-sm ms-2" runat="server" href="~/Account/Register.aspx">
+                                        註冊
+                                    </a>
+                                </li>
+                            </AnonymousTemplate>
+                            <LoggedInTemplate>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" 
+                                       data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-person-circle"></i> 
+                                        <asp:LoginName ID="LoginName1" runat="server" />
+                                        <asp:Label ID="lblNotificationBadge" runat="server" CssClass="badge bg-danger ms-1" Visible="false"></asp:Label>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                        <li>
+                                            <a class="dropdown-item" runat="server" href="~/Profile/MyProfile.aspx">
+                                                <i class="bi bi-person-fill"></i> 個人檔案
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" runat="server" href="~/Tasks/MyTasks.aspx">
+                                                <i class="bi bi-clipboard-check"></i> 我的任務
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" runat="server" href="~/Profile/MyItems.aspx">
+                                                <i class="bi bi-box-seam"></i> 我的道具
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" runat="server" href="~/Profile/Achievements.aspx">
+                                                <i class="bi bi-award-fill"></i> 我的成就
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" runat="server" href="~/Profile/Notifications.aspx">
+                                                <i class="bi bi-bell-fill"></i> 通知中心
+                                            </a>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <a class="dropdown-item dropdown-item-tour" runat="server" href="~/PlatformTour.aspx">
+                                                <i class="bi bi-compass-fill"></i> 平台功能導覽
+                                                <span class="badge bg-info ms-2">新手</span>
+                                            </a>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <asp:LoginStatus ID="LoginStatus1" runat="server" 
+                                                LogoutAction="Redirect" 
+                                                LogoutPageUrl="~/" 
+                                                LogoutText="<i class='bi bi-box-arrow-right'></i> 登出"
+                                                CssClass="dropdown-item" />
+                                        </li>
+                                    </ul>
+                                </li>
+                            </LoggedInTemplate>
+                        </asp:LoginView>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container body-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            <hr />
+            <footer class="py-4 mt-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>
+                                <img src="/Images/Icons/game_logo.png" alt="Logo" class="footer-icon" /> 暗魂的神諭
+                            </h5>
+                            <p class="text-muted">完成任務，累積經驗，贏取獎勵！</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>快速連結</h6>
+                            <ul class="list-unstyled">
+                                <li><a runat="server" href="~/About">關於我們</a></li>
+                                <li><a runat="server" href="~/Contact">聯絡我們</a></li>
+                                <li><a href="#">使用條款</a></li>
+                                <li><a href="#">隱私政策</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>社群媒體</h6>
+                            <div class="social-links">
+                                <a href="#" class="me-2"><i class="bi bi-facebook fs-4"></i></a>
+                                <a href="#" class="me-2"><i class="bi bi-twitter fs-4"></i></a>
+                                <a href="#" class="me-2"><i class="bi bi-instagram fs-4"></i></a>
+                                <a href="#"><i class="bi bi-youtube fs-4"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-3" />
+                    <p class="text-center text-muted mb-0">&copy; <%: DateTime.Now.Year %> - 暗魂的神諭 All Rights Reserved</p>
+                </div>
+            </footer>
+        </div>
+    </form>
+    
+    <!-- Bootstrap 5 JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
