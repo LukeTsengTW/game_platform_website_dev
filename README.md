@@ -1,5 +1,7 @@
 # ASP.NET Webform 專案 : 《暗魂的神諭》
 
+<img width="1919" height="944" alt="image" src="https://github.com/user-attachments/assets/a54ede4b-26cb-4c00-875f-b5b6777ed322" />
+
 本專案名稱為「以ASP.NET WebForm實作遊戲活動平台網站開發：《暗魂的神諭》」。
 
 ## 專案簡介
@@ -54,3 +56,55 @@
 4.	執行 ./Database/Initialize.sql 對資料庫進行初始化。
 5.	在 Web.config 中設定資料庫連接字串。
 6.	執行專案並開始使用即可。
+
+## 專案截圖
+
+任務大廳：
+
+<img width="1919" height="946" alt="image" src="https://github.com/user-attachments/assets/7bc6a023-3306-4f68-b34b-01afda6b5dc1" />
+
+<img width="1919" height="942" alt="image" src="https://github.com/user-attachments/assets/3b251f3e-d47b-4162-b30b-dbbaffdcc59e" />
+
+積分商城：
+
+<img width="1919" height="945" alt="image" src="https://github.com/user-attachments/assets/7b3c08a0-36d5-4ff3-9f8c-4fa92c7b84e2" />
+
+排行榜：
+
+<img width="1919" height="945" alt="image" src="https://github.com/user-attachments/assets/c7125586-9d1a-49be-b8c4-128aa1b15bd3" />
+
+社交：
+
+<img width="1919" height="944" alt="image" src="https://github.com/user-attachments/assets/82f71cfc-dbea-4f29-93cf-7d56fd4cef48" />
+
+抽獎：
+
+<img width="1919" height="941" alt="image" src="https://github.com/user-attachments/assets/24502153-4553-43dc-88b9-cd88bdd0d1ff" />
+
+平台功能導覽：
+
+<img width="1919" height="945" alt="image" src="https://github.com/user-attachments/assets/40aaf86f-1af6-4939-9222-6b55430115c7" />
+
+個人檔案：
+
+<img width="1919" height="944" alt="image" src="https://github.com/user-attachments/assets/8a9aa8e3-bb7e-429b-877d-9380904d144a" />
+
+我的道具：
+
+<img width="1919" height="944" alt="image" src="https://github.com/user-attachments/assets/d731cfb8-d031-416d-a3aa-45161043f116" />
+
+我的成就：
+
+<img width="1919" height="945" alt="image" src="https://github.com/user-attachments/assets/d28bd15e-7c9b-4d58-b1f7-b4daeb49f2b7" />
+
+通知中心：
+
+<img width="1919" height="944" alt="image" src="https://github.com/user-attachments/assets/f720f379-62ed-4ba1-b566-57c406273094" />
+
+登入頁面：
+
+<img width="1919" height="943" alt="image" src="https://github.com/user-attachments/assets/6deaaa6b-9df6-4bd5-8314-de54456a51ce" />
+
+註冊頁面：
+
+<img width="1919" height="945" alt="image" src="https://github.com/user-attachments/assets/1618f8ff-9a5d-4edc-a0e0-903328b3d3aa" />
