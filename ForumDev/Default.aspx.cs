@@ -105,7 +105,7 @@ namespace ForumDev
         }
 
         /// <summary>
-        /// 获取当前登录用户的ID
+        /// 取得目前登入用戶的ID
         /// </summary>
         private int GetCurrentUserId()
         {

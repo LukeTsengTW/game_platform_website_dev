@@ -147,7 +147,7 @@
                                         單抽 <span class="badge bg-dark bg-opacity-50 ms-1"><%# Eval("CostPoints") %> 積分</span>
                                     </asp:LinkButton>
 
-                                    <!-- 積分十連抽按鈅 -->
+                                    <!-- 積分十連抽按鈕 -->
                                     <asp:LinkButton ID="btnDraw10" runat="server" 
                                                     CommandName="Draw10" 
                                                     CommandArgument='<%# Eval("LotteryID") %>'

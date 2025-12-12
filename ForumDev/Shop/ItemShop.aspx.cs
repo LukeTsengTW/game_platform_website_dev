@@ -380,18 +380,18 @@ namespace ForumDev.Shop
         }
 
         /// <summary>
-        /// 根據IconUrl返回圖標HTML
-        /// 支持Font Awesome圖標、Bootstrap Icons和本地圖片
+        /// 根據IconUrl返回圖示HTML
+        /// 支援Font Awesome圖示、Bootstrap Icons和本地圖片
         /// </summary>
         protected string GetItemIcon(string iconUrl)
         {
             if (string.IsNullOrEmpty(iconUrl))
             {
-                // 默認圖標
+                // 預設圖示
                 return "<i class='fa-solid fa-box fa-4x text-primary'></i>";
             }
 
-            // 判斷是Font Awesome圖標還是Bootstrap Icons
+            // 判斷是Font Awesome圖示還是Bootstrap Icons
             if (iconUrl.StartsWith("fa-"))
             {
                 return $"<i class='fa-solid {iconUrl} fa-4x text-primary'></i>";
@@ -406,12 +406,12 @@ namespace ForumDev.Shop
             {
                 // 處理ASP.NET的 ~/ 路徑
                 string imagePath = iconUrl.StartsWith("~/") ? ResolveUrl(iconUrl) : iconUrl;
-                return $"<img src='{imagePath}' alt='商品圖標' class='item-image' />";
+                return $"<img src='{imagePath}' alt='商品圖示' class='item-image' />";
             }
             else
             {
                 // 相對路徑，自動補充 /Images/Items/
-                return $"<img src='/Images/Items/{iconUrl}' alt='商品圖標' class='item-image' />";
+                return $"<img src='/Images/Items/{iconUrl}' alt='商品圖示' class='item-image' />";
             }
         }
     }
